@@ -1,4 +1,9 @@
-\documentclass[a4paper,twocolumn,superscriptaddress,11pt,accepted=2017-05-09]{quantumarticle}
+
+
+\documentclass[a4paper,twocolumn,twoside,superscriptaddress,11pt,accepted=true]{quantumarticle}
+\def\authorlist{del Rio, Gogolin, and Huber}
+\def\shorttitle{Template demonstrating the quantumarticle class}
+\def\acceptdate{{February 30, 2017}}
 \pdfoutput=1
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -44,6 +49,12 @@ In \texttt{onecolumn} format or with a dedicated \texttt{titlepage}, this should
 Note that clicking the title performs a search for that title on \href{http://quantum-journal.org}{quantum-journal.org}.
 In this way readers can easily verify whether a work using the quantumarticle class was actually published in Quantum.
 
+By passing the option \texttt{accepted=true} the date field will be replaced with the date of acceptance in Quantum. You must define the acceptance date in \texttt{\textbackslash{}acceptdate}, e.g.\ \texttt{\textbackslash{}def\textbackslash{}acceptdate\{\{May 37, 2012\}\}}. 
+Additionally, passing the \texttt{twoside} option enables a header with a short title and author list on alternating pages. 
+These must be defined in \texttt{\textbackslash{}shorttitle} and \texttt{\textbackslash{}authorlist} via \texttt{\textbackslash{}def}.
+
+
+
 \section{Sectioning and equations}
 Sections, subsections, subsubsections, and paragraphs should be typeset with the standard LaTeX commands.
 You can use use the standard commands for equations.
@@ -77,6 +88,9 @@ A figure on the first page can help readers remember and recognize your work mor
 
 \subsection{Citations and footnotes}
 \label{sec:subsec1}
+
+Footnotes\footnote{Only use footnotes when appropriate.} appear in the bottom of the page.
+
 References to other works appear in the References section at the end of the work.
 
 \begin{theorem}[DOI links are required]
@@ -128,6 +142,7 @@ Due to issues with \texttt{biber} we recommend to use the \texttt{bibtex} backen
 
 We encourage the use of BibTeX to generate your bibliography from the BibTeX meta-data provided by publishers.
 For DOI linking to work, the BibTeX file must contain the \texttt{doi} field as for example in:
+\newpage
 \begin{verbatim}
 @article{examplecitation,
   author = {Surname, Name},
@@ -143,7 +158,6 @@ More information on how to get DOI links in your document can be found on StackE
 Feel free to change the appearance of citations in any way you like by using a different \texttt{bibliographystyle} or via the advanced mechanisms provided by BibLaTeX.
 The only two requirements are that citations must uniquely identify the cited work and that they must contain a DOI hyperlink whenever possible.
 
-Footnotes\footnote{Only use footnotes when appropriate.} appear in the bottom of the page.
 
 \section{Summary section}
 Longer articles should include a section that, early on, explains the main results, their limitations, and assumptions.
