@@ -209,7 +209,7 @@
 }
 \@blacklistpackage{titlesec}
 
-\RequirePackage[margin=2cm,bottom=3cm]{geometry}
+\RequirePackage[margin=2.54cm,bottom=3cm]{geometry}
 \@blacklistpackage{geometry}
 \setlength\lineskip{1\p@}
 \setlength\normallineskip{1\p@}
@@ -362,7 +362,7 @@
       \global\@topnum\z@   % Prevents figures from going at top of page.
       \@maketitle
     \fi
-    \thispagestyle{fancy}%\@thanks
+    \thispagestyle{firstpage}%\@thanks
   \endgroup
   \setcounter{footnote}{0}%
   \global\let\thanks\relax
@@ -379,18 +379,20 @@
 }
 \fi
 \def\@maketitle{%
+  \StrSubstitute{\@title}{ }{\%20}[\titleurl]
   \sffamily
   \null
   \let \footnote \thanks
     \noindent\@printtitle
     \vskip 1.5em%
     \noindent\@printauthors
-    \vskip 1em%
+    \vskip .5em%
     \noindent\@printaffiliations
-    \vskip 0em%
-    \noindent{\footnotesize\color{quantumgray}\@date}
+    \vskip .25em%
+    \ifaccepted\noindent{{\textcolor{quantumviolet}{\sffamily\footnotesize \href{http://quantum-journal.org/?s=\titleurl}{Accepted in {\normalsize\Quantum} \acceptdate }}}}
+    \else{\noindent{\footnotesize\color{quantumgray}\@date}}\fi
   \par
-  \vskip 1.5em
+  \vskip 1.0em
   \makeatletter%
   \begingroup
   \hypersetup{%
@@ -803,13 +805,27 @@
 \setlength{\footnotesep}{\baselineskip}
 \RequirePackage{fancyhdr}
 \@blacklistpackage{fancyhdr}
-\pagestyle{fancy}
 \renewcommand{\headrule}{}
 \renewcommand{\footrule}{\vbox to 0pt{\hbox to\headwidth{\color{quantumgray}\leaders\hrule\hfil}\vss}}
+
+\setlength{\headsep}{20pt} 
+
+\fancypagestyle{firstpage}{%
+  \fancyhf{}%
+  \fancyhf{}
+  \fancyfoot[C]{\sffamily\textcolor{quantumviolet}{\thepage}}
+} 
+
+\pagestyle{fancy}
+%\renewcommand{\headrule}{}
+%\renewcommand{\footrule}{\vbox to 0pt{\hbox to\headwidth{\color{quantumgray}\leaders\hrule\hfil}\vss}}
 \fancyhf{}
 \fancyfoot[C]{\sffamily\textcolor{quantumviolet}{\thepage}}
-\ifaccepted\fancyfoot[L]{\textcolor{quantumviolet}{\sffamily\footnotesize Accepted in {\normalsize\Quantum}\ifcsdef{@accepteddate}{ \@accepteddate}{}, click title to verify}}\else\fancyfoot[L]{}\fi
-%\fancyfoot[R]{\sffamily\textcolor{quantumviolet}{\footnotesize foor}}
+\if@twoside
+\fancyhead[L]{\href{http://quantum-journal.org}{\textcolor{quantumviolet}{\large \Quantum}}}
+\fancyhead[RE]{\textcolor{quantumviolet}{\sffamily \shorttitle}}
+\fancyhead[RO]{\textcolor{quantumviolet}{\sffamily \authorlist}}
+\else\fi
 \pagenumbering{arabic}
 \if@twoside
 \else
@@ -866,7 +882,8 @@
 
 %title
 \def\@printtitle{%
-  {\Huge\href{http://quantum-journal.org/?s=\detokenize\expandafter{\@title}}{%
+  \StrSubstitute{\@title}{ }{\%20}[\titleurl]
+  {\Huge\href{http://quantum-journal.org/?s=\titleurl}{%
       \begin{minipage}{1.0\linewidth}%
         \color{quantumviolet}{%
           \begingroup%
@@ -879,6 +896,10 @@
 }
 %renew \title to allow for and ignore an optional argument
 \renewcommand{\title}[2][]{\gdef\@title{#2}}
+\AtBeginDocument{
+  \usepackage{xstring}
+ % \StrSubstitute{\@title}{ }{\%20}[\titleurl]
+}
 % author handling
 \newcounter{@authorcounter}
 \csdef{@authors}{}
